@@ -1,0 +1,48 @@
+import java.sql.*;
+
+public class DQLquery {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		
+		String url = "jdbc:mysql://localhost:3306/world";
+		String uname = "root";
+		String password = "tiger";
+		String query = "select * from city where id < 5";
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con = DriverManager.getConnection(url, uname, password);
+		
+		
+		Statement st = con.createStatement();
+		ResultSet rs = st.executeQuery(query);
+		
+		// executeQuery() is used in DQL to fetch data from the database & returns "String"
+		//executeUpdate() is used in DML to update/change/manipulate the data & returns "int"
+		
+/*		<--for getting single row-->
+		rs.next();
+		int id = rs.getInt("id");
+		String Name = rs.getString("Name");
+		String CountryCode = rs.getString("CountryCode");
+		String District = rs.getString("District");
+		int Population = rs.getInt("Population");
+		
+		String data =id +" : " + Name +" : "+CountryCode +" : "+ District+" : "+Population;
+		System.out.println(data);*/
+		
+		// <---for getting multiple rows  -->
+		
+		while(rs.next()){
+			
+			String data =rs.getInt(1) +" : " + rs.getString(2) +" : "+rs.getString(3) +" : "+ rs.getString(4)+" : "+rs.getInt(5);
+	// or String data =rs.getInt("id") +" : " + rs.getString("Name") +" : "+rs.getString("CountryCode") +" : "+ rs.getString("District")+" : "+rs.getInt("Population");
+			
+			System.out.println(data);
+		}
+		
+		st.close();
+		con.close();
+
+	}
+
+}
