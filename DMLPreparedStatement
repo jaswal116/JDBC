@@ -1,0 +1,45 @@
+import java.sql.*;
+
+public class DMLPreparedStatement {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		String url = "jdbc:mysql://localhost:3306/jaswal";
+		String uname = "root";
+		String password = "tiger";
+		//String query = "insert into jaswal.emp values (2,'tia','developer','Toronto','CA')";
+		
+		int id = 4;
+		String name = "Ceyona";
+		String role = "hr";
+		String city = "herndon";
+		String country = "US";
+		String query = "insert into jaswal.emp values (?,?,?,?,?)";
+		
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con = DriverManager.getConnection(url, uname, password);
+	
+		/*use PrepareStatement if we have multiple rows & columns to be inserted 
+		where query is fixed however values keep on changing*/
+		PreparedStatement st = con.prepareStatement(query);
+		/*query argument is given during CREATION of PreparedStatement while
+		query argument is given during EXECUTION of Statement*/
+
+		st.setInt(1, id);
+		st.setString(2, name);
+		st.setString(3, role);
+		st.setString(4, city);
+		st.setString(5, country);
+		
+		int number = st.executeUpdate();
+		// executeQuery() is used in DQL to fetch data from the database & returns "String"
+		//executeUpdate() is used in DML to update/change/manipulate the data & returns "int"
+		
+		System.out.println(number + " row/s affected" );
+				
+		st.close();
+		con.close();
+
+	}
+
+}
